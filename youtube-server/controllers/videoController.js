@@ -74,17 +74,22 @@ exports.getSavedVideos = async (req, res) => {
     if (req.query.limit) {
         limit = req.query.limit
     }
-    const favorites = await dbService.fetchFavorites(lastVideoId, limit);
-    const nextPageToken = favorites.length ? favorites[favorites.length - 1]._id : null;
-    res.json({items: favorites, nextPageToken})
+    try {
+        const favorites = await dbService.fetchFavorites(lastVideoId, limit);
+        const nextPageToken = favorites.length ? favorites[favorites.length - 1]._id : null;
+        res.status(200).json({items: favorites, nextPageToken});
+    } catch (e) {
+        res.status(500).json({message: e})
+    }
+
 };
 
 exports.saveVideo = async (req, res) => {
     try {
         const saved = await dbService.saveFavorite(req.body)
-        res.json({message: saved ? 'ok' : 'favorite already exists'})
+        res.status(201).json({message: saved ? 'ok' : 'favorite already exists'})
     } catch (e) {
-        res.json({message: e})
+        res.status(500).json({message: e});
     }
 
 };
@@ -92,17 +97,17 @@ exports.saveVideo = async (req, res) => {
 exports.deleteVideo = async (req, res) => {
     try {
         const deleted = await dbService.deleteFromFavorites(req.params.id)
-        res.json({message: 'ok', deleted})
+        res.status(204).json({message: 'ok', deleted});
     } catch (e) {
-        res.json({message: e})
+        res.status(500).json({message: e})
     }
 };
 
 exports.isFavorite = async (req, res) => {
     try {
         const isVideoAFavorite = await dbService.isFavorite(req.params.id)
-        res.json(isVideoAFavorite)
+        res.status(200).json(isVideoAFavorite)
     } catch (e) {
-        res.json({message: e})
+        res.status(500).json({message: e})
     }
 }

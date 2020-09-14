@@ -18,8 +18,10 @@ function MovieGrid(props: MovieGridProps) {
 
     useEffect(() => {
         //fetch initial videos if list is empty
-        if (props.collectionType !== "searchVideos" && !videoStore[props.collectionType].videos.length) {
+        if ((props.collectionType !== "searchVideos" && !videoStore[props.collectionType].videos.length)) {
             dispatch(fetchVideos({collectionType: props.collectionType, add: false}))
+        }else if (props.collectionType === 'myFavoriteVideos' && videoStore.myFavoriteVideos.videos.length < 30){
+            dispatch(fetchVideos({collectionType: props.collectionType, add: true}))
         }
     }, [props.collectionType]);
     const loadMore = () => {
