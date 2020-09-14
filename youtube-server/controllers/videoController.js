@@ -70,7 +70,7 @@ exports.getSavedVideos = async (req, res) => {
     if (req.query.page) {
         lastVideoId = req.query.page
     }
-    let limit = 10;
+    let limit = 25;
     if (req.query.limit) {
         limit = req.query.limit
     }

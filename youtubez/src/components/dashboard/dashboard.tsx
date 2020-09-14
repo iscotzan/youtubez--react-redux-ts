@@ -20,7 +20,6 @@ function Dashboard(props: DashboardProps) {
         currentView = <MovieGrid collectionType={"myFavoriteVideos"}/>
     } else if (navigationStore.mode === "Trends") {
         currentView = <MovieGrid collectionType={"trendyVideos"}/>
-        // currentView = <MovieGrid collectionType={"myFavoriteVideos"}/>
     }
 
     return (
