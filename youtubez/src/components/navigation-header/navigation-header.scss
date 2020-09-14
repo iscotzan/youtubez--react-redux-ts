@@ -1,0 +1,94 @@
+/*
+  .navigation-header
+  .navigation-header__left
+  .navigation-header__right
+  .navigation-header__logo
+  .navigation-header__search-bar-wrapper
+  .navigation-header__navigation-buttons
+  .navigation-header__navigation-buttons__button
+ */
+.navigation-header {
+  display: flex;
+  justify-content: space-between;
+  height: 5.6rem;
+  background: #152c34;
+  color: white;
+  padding: 0 1.618rem;
+
+  &__left, &__right, &__center {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: center;
+    align-self: center; // flex-end;
+  }
+
+  &__logo {
+    font-size: 2rem;
+    font-family: var(--lemon-milk);
+    letter-spacing: 1.2px;
+    font-weight: 500;
+    color: #61dafb;
+    display: flex;
+    align-items: flex-end;
+    @media screen and (max-width: 760px) {
+      font-size: 4rem;
+    }
+
+    &__title {
+      margin-right: 1rem;
+    }
+  }
+
+  &__search-bar-wrapper {
+    align-self: center;
+    width: 30vw;
+  }
+
+  &__navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+
+    &__active-route-indicator {
+      position: absolute;
+      bottom: -1.4rem; //0;
+      background: #61dafb;
+      width: 10px;
+      height: 2px;
+      transition: all 0.618s cubic-bezier(0, 0.25, 0.39, 1.2);;
+    }
+
+    &__button {
+      width: 100%;
+      font-family: var(--oh-now);
+      font-size: 2.2rem;
+      height: 2.5rem;
+      background: transparent;
+      white-space: nowrap;
+      text-align: center;
+      border: none;
+      padding: 0 10px;
+      color: white;
+      letter-spacing: 0.85px;
+      line-height: 1rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      margin-left: 1rem;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.618s cubic-bezier(0, 0.25, 0.39, 1.2);;
+      @media screen and (max-width: 760px) {
+        font-size: 2.8rem;
+      }
+      &__title {
+        margin-right: 1rem;
+      }
+
+      &--is-active {
+        //background: palegoldenrod;
+        color: #61dafb;
+        transition: all 0.618s cubic-bezier(0, 0.25, 0.39, 1.2);;
+      }
+    }
+  }
+}

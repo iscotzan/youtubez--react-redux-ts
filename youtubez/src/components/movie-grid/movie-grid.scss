@@ -1,0 +1,19 @@
+.movie-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding-top: 1.8rem;
+
+  .rsc-loader-wrapper {
+    background: var(--bg-dark-blue);
+  }
+
+  &__loader {
+    color: #61dafb;
+    width: 100%;
+    font-size: 5rem;
+    -webkit-animation: spin 4s linear infinite;
+    -moz-animation: spin 4s linear infinite;
+    animation: spin 4s linear infinite;
+  }
+}

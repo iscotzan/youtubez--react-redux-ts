@@ -1,0 +1,102 @@
+@import "fonts";
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500&display=swap');
+
+:root {
+  font-size: 10px;
+  font-family: "lemon-milk", sans-serif;
+  color: #383838;
+  --lemon-milk: "lemon-milk", sans-serif;
+  --bring-the-noise: "bring-the-noise", serif;
+  --vollkorn: "vollkorn", serif;
+  --balpais: "balpais", serif;
+  --hacked: "hacked", serif;
+  --hey-november: "hey-november", serif;
+  --oh-now: "oh-now", serif;
+  --zuka: "zuka", serif;
+  --spongeboy: "spongeboy", serif;
+  --comforta: 'Comfortaa', cursive;
+  --bg-dark-blue: #212f45;
+  --base-dark-blue: #264653;
+  --base-dark-blue-transparent: #264653de;
+  --base-turq: #2a9d8f;
+  --base-light-green: #d3f8e2;
+  --base-gold: #e9c46a;
+  --base-orange: #f4a261;
+  --base-red: #e76f51;
+  --coffee: #774936ff;
+  --van-dyke-brown: #6e4230ff;
+  --liver-organ: #653a2aff;
+  --caput-mortuum: #5c3324ff;
+  --caput-mortuum-2: #532c1eff;
+  --caput-mortuum-3: #4a2419ff;
+  --black-bean: #411d13ff;
+  --dark-sienna: #38160dff;
+  --dark-sienna-2: #2f0e07ff;
+  --dark-sienna-3: #260701ff;
+  --section-shadow: 0px 2px 5px #00000057;
+
+}
+
+body:not(.user-is-tabbing) button:focus,
+body:not(.user-is-tabbing) input:focus,
+body:not(.user-is-tabbing) select:focus,
+body:not(.user-is-tabbing) div:focus,
+body:not(.user-is-tabbing) textarea:focus {
+  outline: none;
+}
+
+.App {
+  text-align: center;
+  width: 100%;
+  min-height: 100vh;
+  font-size: 10px;
+  font-family: "lemon-milk", serif;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+.inner-scroller-y {
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+
+@-moz-keyframes spin {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
