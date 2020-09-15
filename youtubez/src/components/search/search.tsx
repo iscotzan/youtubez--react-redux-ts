@@ -55,7 +55,6 @@ function Search(props: SearchProps) {
     };
     const onSearchInput = (text: string) => {
         dispatch(updateSearchQuery(text))
-        console.log('on search input', text, videoStore.searchQuery)
         delayedQuery({collectionType: "searchVideos", query: text, add: false});
     }
     return (
