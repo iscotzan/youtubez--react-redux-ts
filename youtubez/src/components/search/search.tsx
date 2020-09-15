@@ -1,10 +1,11 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import './search.scss'
 import {useDispatch, useSelector} from "react-redux";
 import {VideoState} from "../../store/video/types";
 import {clearSearch, fetchVideos, updateSearchQuery} from "../../store/video/action";
 import InfiniteScroll from "../../common/infinite-scroll/infinite-scroll";
 import {BiLoader} from 'react-icons/bi'
+import {debounce} from 'lodash';
 
 interface SearchProps {
 
@@ -15,14 +16,14 @@ function Search(props: SearchProps) {
     const wrapperRef = useRef<any>(null);
     const videoStore = useSelector((state: { video: VideoState }) => state.video)
     const dispatch = useDispatch();
-
+    const delayedQuery = useCallback(debounce(q => dispatch(fetchVideos(q)), 500), []);
     useEffect(() => {
         if (videoStore.searchQuery.length) {
             dispatch(fetchVideos({collectionType: "searchVideos", query: videoStore.searchQuery, add: false}))
         } else {
             dispatch(clearSearch());
         }
-    }, [videoStore.searchQuery]);
+    }, []);
 
     useEffect(() => {
         window.addEventListener("mousedown", handleClickOutside);
@@ -52,6 +53,11 @@ function Search(props: SearchProps) {
         dispatch(updateSearchQuery(searchString))
         setDisplay(false);
     };
+    const onSearchInput = (text: string) => {
+        dispatch(updateSearchQuery(text))
+        console.log('on search input', text, videoStore.searchQuery)
+        delayedQuery({collectionType: "searchVideos", query: text, add: false});
+    }
     return (
         <div ref={wrapperRef} className="auto-complete-search">
             <input
@@ -61,7 +67,7 @@ function Search(props: SearchProps) {
                 placeholder="Type to search"
                 autoComplete="off"
                 value={videoStore.searchQuery}
-                onChange={event => dispatch(updateSearchQuery(event.target.value))}
+                onChange={event => onSearchInput(event.target.value)}
             />
             {display && videoStore.searchVideos.videos.length ?
                 <div className="auto-complete-search__options-container inner-scroller-y">
