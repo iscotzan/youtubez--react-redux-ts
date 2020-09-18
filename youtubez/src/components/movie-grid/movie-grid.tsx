@@ -21,10 +21,10 @@ function MovieGrid(props: MovieGridProps) {
     useEffect(() => {
         //fetch initial videos if list is empty
         console.log('fetch')
-        if ((props.collectionType === "trendyVideos" && videoStore.trendyVideos.videos.length < 30)) {
+        if ((props.collectionType === "trendyVideos" && videoStore.trendyVideos.videos.length < 30 && !videoStore.searchQuery.length)) {
             console.log('fetch2')
             dispatch(fetchVideos({collectionType: props.collectionType, add: false}))
-        } else if (props.collectionType === 'myFavoriteVideos' && videoStore.myFavoriteVideos.videos.length < 30) {
+        } else if (props.collectionType === 'myFavoriteVideos' && videoStore.myFavoriteVideos.videos.length < 30 && !videoStore.searchQuery.length) {
             console.log('fetch3')
             dispatch(fetchVideos({collectionType: props.collectionType, add: true}))
         }
@@ -47,6 +47,7 @@ function MovieGrid(props: MovieGridProps) {
             dispatch(fetchVideos(fetchVideosParams))
         }
     }
+    console.log('videos arr', videoStore[props.collectionType].videos)
     return (
         <TransitionGroup>
             <InfiniteScroll externalListWrapperClassName={"movie-grid inner-scroller-y"}

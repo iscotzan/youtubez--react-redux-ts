@@ -73,11 +73,12 @@ export function fetchVideos(params: FetchVideosParams) {
                 const nonPresentVideos = differenceWith(response.data.items, store.getState().video[params.collectionType].videos, function (o1: VideoData, o2: VideoData) {
                     return o1['id'] === o2['id']
                 });
+                console.log('got response from fetch req, res and params: ', response, params, nonPresentVideos)
                 return params.collectionType === "searchVideos" && store.getState().video.searchQuery !== params.query ?
                     dispatch(fetchVideosAbortAction({collectionType: params.collectionType})) :
                     dispatch(fetchVideosSuccessAction({
                         nextPageToken: response.data.nextPageToken,
-                        videos: nonPresentVideos,
+                        videos: params.collectionType === "searchVideos" ? response.data.items : nonPresentVideos,
                         collectionType: params.collectionType,
                         add: params.add
                     }))

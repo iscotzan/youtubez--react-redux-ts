@@ -34,6 +34,7 @@ export function videoReducer(
                 [action.payload.collectionType]: {...state[action.payload.collectionType], loading: false}
             }
         case "video/FETCH_VIDEOS_SUCCESS":
+            console.log('video fetch success, payload', action.payload)
             return {
                 ...state,
                 [action.payload.collectionType]: {
