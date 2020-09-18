@@ -6,6 +6,7 @@ import {clearSearch, fetchVideos, updateSearchQuery} from "../../store/video/act
 import InfiniteScroll from "../../common/infinite-scroll/infinite-scroll";
 import {BiLoader} from 'react-icons/bi'
 import {debounce} from 'lodash';
+import {NavigationReducerState} from "../../store/navigation/types";
 
 interface SearchProps {
 
@@ -15,15 +16,25 @@ function Search(props: SearchProps) {
     const [display, setDisplay] = useState(false);
     const wrapperRef = useRef<any>(null);
     const videoStore = useSelector((state: { video: VideoState }) => state.video)
+    const navigationStore = useSelector((state: { navigation: NavigationReducerState }) => state.navigation)
+
     const dispatch = useDispatch();
     const delayedQuery = useCallback(debounce(q => dispatch(fetchVideos(q)), 500), []);
     useEffect(() => {
         if (videoStore.searchQuery.length) {
-            dispatch(fetchVideos({collectionType: "searchVideos", query: videoStore.searchQuery, add: false}))
+            console.log('searching')
+            const searchOf = navigationStore.mode === "Trends" ? "trendyVideos" : "myFavoriteVideos"
+            console.log('search of ', searchOf)
+            dispatch(fetchVideos({
+                collectionType: "searchVideos",
+                query: videoStore.searchQuery,
+                add: false,
+                searchOf: searchOf
+            }))
         } else {
             dispatch(clearSearch());
         }
-    }, []);
+    }, [navigationStore.mode]);
 
     useEffect(() => {
         window.addEventListener("mousedown", handleClickOutside);
@@ -41,11 +52,14 @@ function Search(props: SearchProps) {
     };
     const loadMore = () => {
         if (videoStore.searchVideos.nextPageToken) {
+            const searchOf = navigationStore.mode === "Trends" ? "trendyVideos" : "myFavoriteVideos"
+            console.log('search of ', searchOf)
             dispatch(fetchVideos({
                 collectionType: "searchVideos",
                 query: videoStore.searchQuery,
                 add: true,
-                page: videoStore.searchVideos.nextPageToken
+                page: videoStore.searchVideos.nextPageToken,
+                searchOf: searchOf
             }))
         }
     }
@@ -55,7 +69,8 @@ function Search(props: SearchProps) {
     };
     const onSearchInput = (text: string) => {
         dispatch(updateSearchQuery(text))
-        delayedQuery({collectionType: "searchVideos", query: text, add: false});
+        const searchOf = navigationStore.mode === "Trends" ? "trendyVideos" : "myFavoriteVideos"
+        delayedQuery({collectionType: "searchVideos", query: text, add: false, searchOf: searchOf});
     }
     return (
         <div ref={wrapperRef} className="auto-complete-search">

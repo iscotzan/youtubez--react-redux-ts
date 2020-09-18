@@ -51,6 +51,7 @@ export const clearSearch = () => {
 
 export function fetchVideos(params: FetchVideosParams) {
     return function action(dispatch: Dispatch) {
+        console.log('fetch videos with params', params)
         let url: string = '';// params.collectionType === "searchFilteredVideos" ? `/videos/search?name=${params.query}` : params.collectionType === "myFavoriteVideos" ? `videos/?name=${params.query}` : `/videos/trend`
         let reqParams: { page?: string, name?: string } = {}
         switch (params.collectionType) {
@@ -59,7 +60,7 @@ export function fetchVideos(params: FetchVideosParams) {
                 reqParams = {page: params.page}
                 break;
             case "searchVideos":
-                url = `/videos/search`
+                url = params.searchOf ? params.searchOf === "trendyVideos" ? 'videos/search' : 'videos/search-library' : `/videos/search`
                 reqParams = {page: params.page, name: params.query}
                 break;
             case "trendyVideos":

@@ -20,6 +20,7 @@ export type CollectionType = 'trendyVideos' | 'myFavoriteVideos' | 'searchVideos
 
 export interface FetchVideosParams {
     collectionType: CollectionType;
+    searchOf?: CollectionType;
     add: boolean;
     query?: string;
     page?: string;
