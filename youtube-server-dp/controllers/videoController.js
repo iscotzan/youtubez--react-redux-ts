@@ -64,7 +64,40 @@ exports.searchVideos = async (req, res) => {
         res.status(status).send(data);
     }
 };
+exports.searchMyLibrary = async (req, res) => {
+    if (!req.query.name) res.json(Boom.badRequest('Name is required'));
 
+    const params = {
+        q: req.query.name,
+        pageToken: req.query.page || '',
+    };
+
+    try {
+        // const {data: {items: searchItems, nextPageToken}} = await httpService.searchVideos(params);
+        // const idList = searchItems.map(({id: {videoId}}) => videoId).join(',');
+        // const {data: {items}} = await httpService.fetchVideos({id: idList});
+        //
+        // res.json({items: formatVideoItems(items), nextPageToken});
+        let lastVideoId = null;
+        if (req.query.page) {
+            lastVideoId = req.query.page
+        }
+        let limit = 25;
+        if (req.query.limit) {
+            limit = req.query.limit
+        }
+        try {
+            const favorites = await dbService.searchFavorites(params.q, params.pageToken, limit);
+            const nextPageToken = favorites.length ? favorites[favorites.length - 1]._id : null;
+            res.status(200).json({items: favorites, nextPageToken});
+        } catch (e) {
+            res.status(500).json({message: e})
+        }
+
+    } catch ({response: {status, data}}) {
+        res.status(status).send(data);
+    }
+};
 exports.getSavedVideos = async (req, res) => {
     let lastVideoId = null;
     if (req.query.page) {

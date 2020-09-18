@@ -1,4 +1,3 @@
-
 const db = require('./../database')
 const Favorite = db.favorite
 const dbService = {
@@ -23,7 +22,35 @@ const dbService = {
             }
         });
     },
-
+    searchFavorites(queryString, lastVideoId, limit = 20) {
+        return new Promise((resolve, reject) => {
+            console.log('searching favorites', queryString, lastVideoId, limit)
+            if (lastVideoId) {
+                Favorite.find({
+                    'title':{"$regex": queryString, "$options": "i"},
+                    '_id': {'$gt': lastVideoId}
+                }).countDocuments().then(count => {
+                    Favorite.find({
+                        'title':{"$regex": queryString, "$options": "i"},
+                        '_id': {'$gt': lastVideoId}
+                    }).limit(limit).then(data => {
+                        resolve(data)
+                    }).catch(err => {
+                        console.error(err)
+                        reject(err)
+                    });
+                })
+            } else {
+                Favorite.find({'title':{"$regex": queryString, "$options": "i"}}).limit(limit)
+                    .then(data => {
+                        resolve(data)
+                    }).catch(err => {
+                    console.error(err)
+                    reject(err)
+                });
+            }
+        });
+    },
     isFavorite(videoId) {
         return new Promise((resolve, reject) => {
             Favorite.find({id: videoId}).limit(1).then(

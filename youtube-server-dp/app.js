@@ -10,8 +10,10 @@ const db = require("./database");
 
 const routes = require('./routes');
 const interceptors = require('./interceptors');
-const port = 3001;
-const allowedDomains = ['https://youtubez.iscovici.com', 'http://youtubez.iscovici.com'];
+const port = process.env.PORT || 3001;
+
+const allowedDomains = ['http://localhost:3000', 'https://youtubez.iscovici.com', 'http://youtubez.iscovici.com'];
+
 app.use(cors({
     origin: function (origin, callback) {
         // bypass the requests with no origin (like curl requests, mobile apps, etc )

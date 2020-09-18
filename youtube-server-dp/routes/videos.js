@@ -8,6 +8,8 @@ router.get('/trend', videoController.getTrendVideos);
 
 router.get('/search', videoController.searchVideos);
 
+router.get('/search-library', videoController.searchMyLibrary);
+
 router.get('/:id', videoController.getSingleVideo);
 
 
